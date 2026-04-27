@@ -2,11 +2,16 @@ export default class View {
     #levelElement;
     #progressBarElement;
     #taskListElement;
+    #selectors = {
+        level: '[data-js-level]',
+        progress: '[data-js-progress-bar]',
+        list: '[data-js-task-list]'
+    }
 
     constructor({ level, progress, max }, tasks) {
-        this.#levelElement = document.querySelector('[data-js-level]');
-        this.#progressBarElement = document.querySelector('[data-js-progress-bar]');
-        this.#taskListElement = document.querySelector('[data-js-task-list]');
+        this.#levelElement = document.querySelector(this.#selectors.level);
+        this.#progressBarElement = document.querySelector(this.#selectors.progress);
+        this.#taskListElement = document.querySelector(this.#selectors.list);
 
         this.showLevel(level);
         this.showProgressBar(progress, max);
@@ -14,7 +19,7 @@ export default class View {
 
     }
 
-    taskFormationHtml(tasks) {
+    #taskFormationHtml(tasks) {
         let list = '';
         tasks.forEach(({id, task, status}) => {
             list +=
@@ -32,7 +37,7 @@ export default class View {
         this.#progressBarElement.textContent = `${progress}/${max}`;
     }
     showTasks(tasks){
-        this.#taskListElement.innerHTML = this.taskFormationHtml(tasks);
+        this.#taskListElement.innerHTML = this.#taskFormationHtml(tasks);
     }
 
 }

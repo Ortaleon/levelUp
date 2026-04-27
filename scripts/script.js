@@ -6,8 +6,6 @@ import View from "./view.js";
 
 class Controller {
     saves;
-
-
     async init(){
         this.saves = new Saves();
         await this.saves.init();
@@ -25,7 +23,10 @@ class Controller {
 
         if (taskList) {
             this.view.showTasks(taskList);
-            this.view.showProgressBar(this.user.progressUp(task.reward), this.user.max);
+            this.view.showProgressBar(
+                this.user.progressUp(task.reward),
+                this.user.max
+            );
             this.view.showLevel(this.user.level);
 
             await this.save(taskList, 'tasks');
@@ -42,7 +43,6 @@ class Controller {
         const taskList = this.tasks.create(formData);
         await this.save(taskList, 'tasks');
         this.view.showTasks(taskList);
-
     }
 
     async load(file) {
@@ -72,4 +72,5 @@ await control.init();
 
 //TODO Не показывать выполненные задачи не сегодняшнего дня
 //TODO Логи
-//TODO Сохранения
+//TODO Создать класс Task, а Tasks => List
+

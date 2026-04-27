@@ -5,8 +5,8 @@ export default class Users{
 
     constructor(user) {
         if (!user) user = {
-            progress: 0,
-            level: 1
+            _progress: 0,
+            _level: 1
         }
         this._progress = user._progress;
         this._level = user._level;
@@ -28,6 +28,8 @@ export default class Users{
         return
     }
     progressUp(reward) {
+
+
        const progress = this._progress + Math.abs(Number(reward.exp));
        if(progress >= this._max){
           return this._progress = this.progressUpCheck(progress);
