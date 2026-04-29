@@ -1,7 +1,8 @@
 import Saves from './saves.js';
 import Users from './users.js';
-import Tasks from './tasks.js';
+import List from './list.js';
 import Logs from './logs.js';
+import Task from "./task.js";
 import View from "./view.js";
 
 class Controller {
@@ -10,26 +11,25 @@ class Controller {
         this.saves = new Saves();
         await this.saves.init();
 
-        this.tasks = new Tasks(await this.load('tasks'));
+        this.tasksList = new List(await this.load('tasks'));
         this.user = new Users(await this.load('user'));
-        this.view = new View(this.user, this.tasks.get());
+        this.view = new View(this.user, this.tasksList.getAll());
 
         this.bindEvents();
     }
 
     async completeTask(id) {
-        const task = this.tasks.find(id);
-        const taskList = this.tasks.complete(task);
+        let task = this.tasksList.findById(id).complete();
 
-        if (taskList) {
-            this.view.showTasks(taskList);
+        if (this.tasksList.edit(task)) {
+            this.view.showTasks(this.tasksList.getAll());
             this.view.showProgressBar(
-                this.user.progressUp(task.reward),
+                this.user.progressUp(task),
                 this.user.max
             );
             this.view.showLevel(this.user.level);
 
-            await this.save(taskList, 'tasks');
+            await this.save(this.tasksList.getAll(), 'tasks');
             await this.save(this.user, 'user');
         }
     }
@@ -40,9 +40,10 @@ class Controller {
             reward: document.getElementsByName('exp')[0].value
         }
 
-        const taskList = this.tasks.create(formData);
-        await this.save(taskList, 'tasks');
-        this.view.showTasks(taskList);
+        if(this.tasksList.create(formData)){
+            await this.save(this.tasksList.getAll(), 'tasks');
+            this.view.showTasks(this.tasksList.getAll());
+        }
     }
 
     async load(file) {
@@ -72,5 +73,7 @@ await control.init();
 
 //TODO Не показывать выполненные задачи не сегодняшнего дня
 //TODO Логи
-//TODO Создать класс Task, а Tasks => List
+//TODO Укрепить инкапсуляцию
+
+
 

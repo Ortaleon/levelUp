@@ -27,9 +27,7 @@ export default class Users{
         this._max = (this._level+1) * 1000;
         return
     }
-    progressUp(reward) {
-
-
+    progressUp({reward}) {
        const progress = this._progress + Math.abs(Number(reward.exp));
        if(progress >= this._max){
           return this._progress = this.progressUpCheck(progress);

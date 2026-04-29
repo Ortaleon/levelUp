@@ -37,6 +37,7 @@ export default class View {
         this.#progressBarElement.textContent = `${progress}/${max}`;
     }
     showTasks(tasks){
+        if (tasks.length == 0) return ;
         this.#taskListElement.innerHTML = this.#taskFormationHtml(tasks);
     }
 
