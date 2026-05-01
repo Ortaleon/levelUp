@@ -1,0 +1,36 @@
+.user{
+  padding-top: 2em;
+  color: var(--color-light);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @include mobile-above{
+    align-items: start;
+  }
+
+  &__level{
+    @include mobile-above{
+      left: 55px;
+    }
+
+    top: 90px;
+    position: absolute;
+    font-size: 2em;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.4em;
+    &--number{
+      font-size: 2.3em;
+    }
+  }
+  &__progress{
+    @include mobile-above{
+      margin-left: 25px;
+    }
+    font-size: 1.5em;
+  }
+}

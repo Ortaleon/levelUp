@@ -1,0 +1,48 @@
+body{
+  @include fluid-text(18, 16);
+  font-weight: 400;
+  line-height: 1.28;
+  color: var(--color-lights);
+
+  margin: 0;
+  min-height: 100vh;
+  background-color: #1e1d25;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 115'%3E%3Cpath fill='none' stroke='rgba(0,0,0,0.04)' stroke-width='10' d='M50 0 L100 28.8 L100 86.5 L50 115.3 L0 86.5 L0 28.8 Z'/%3E%3Cpath fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='0' d='M25 14.4 L75 14.4 L100 43.2 L75 72 L25 72 L0 43.2 Z'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 80px auto;
+  font-family: system-ui, sans-serif;
+}
+
+a,
+button,
+input,
+textarea,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,h2,h3,h4{
+  font-weight: 500;
+}
+
+h1{
+  @include fluid-text(60, 43);
+}
+
+h2{
+  @include fluid-text(40, 36);
+}
+
+h3{
+  @include fluid-text(30, 26);
+}
+
+h4{
+  @include fluid-text(20, 18);
+}
+

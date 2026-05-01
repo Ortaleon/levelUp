@@ -1,0 +1,576 @@
+@charset "UTF-8";
+body {
+  font-size: clamp(16px, 1.25vw, 18px);
+  font-weight: 400;
+  line-height: 1.28;
+  color: var(--color-lights);
+  margin: 0;
+  min-height: 100vh;
+  background-color: #1e1d25;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 115'%3E%3Cpath fill='none' stroke='rgba(0,0,0,0.04)' stroke-width='10' d='M50 0 L100 28.8 L100 86.5 L50 115.3 L0 86.5 L0 28.8 Z'/%3E%3Cpath fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='0' d='M25 14.4 L75 14.4 L100 43.2 L75 72 L25 72 L0 43.2 Z'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 80px auto;
+  font-family: system-ui, sans-serif;
+}
+
+a,
+button,
+input,
+textarea,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+}
+
+h1 {
+  font-size: clamp(43px, 4.1666666667vw, 60px);
+}
+
+h2 {
+  font-size: clamp(36px, 2.7777777778vw, 40px);
+}
+
+h3 {
+  font-size: clamp(26px, 2.0833333333vw, 30px);
+}
+
+h4 {
+  font-size: clamp(18px, 1.3888888889vw, 20px);
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+  /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Убирает серую подсветку при тапе на мобильных устройствах (iOS/Android)
+ */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill=none],
+[fill^=url])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.container {
+  max-width: calc(var(--container-width) + var(--container-padding-x) * 2);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .visible-mobile {
+    display: none !important;
+  }
+}
+
+:root {
+  --color-dark: #000;
+  --color-light: #fff;
+  --color-accent: blue;
+  --color-gray: gray;
+  --color-gray-alt: gray;
+  --border: 1px solid var(--color-dark);
+  --border-radius: 14px;
+  --border-radius-small: 7px;
+  --border-radius-large: 42px;
+  --shadow: 0 5px 0 0 var(--color-dark);
+  --font-family-base: "Space Grotesk", sans-serif;
+  --container-width: 1240px;
+  --container-padding-x: 20px;
+  --section-padding-y: 70px;
+  --input-height: 59px;
+  --button-height: 68px;
+  --transition-duration: 0.2s;
+}
+
+.user {
+  padding-top: 2em;
+  color: var(--color-light);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .user {
+    align-items: start;
+  }
+}
+.user__level {
+  top: 90px;
+  position: absolute;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.4em;
+}
+@media (min-width: 768px) {
+  .user__level {
+    left: 55px;
+  }
+}
+.user__level--number {
+  font-size: 2.3em;
+}
+.user__progress {
+  font-size: 1.5em;
+}
+@media (min-width: 768px) {
+  .user__progress {
+    margin-left: 25px;
+  }
+}
+
+.tasks {
+  margin-top: 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.tasks__title {
+  display: inline-block;
+  position: absolute;
+  z-index: 2;
+  color: #fff;
+  font-size: 1.6em;
+  text-transform: uppercase;
+  padding: 7px 20px;
+  background-color: #1D1C24;
+  border: 1px solid #fff;
+  border-radius: 0 0 20px 20px;
+}
+.tasks__list {
+  overflow-y: auto;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  background-color: #1A1A22;
+  width: 70%;
+  height: 40vh;
+  padding: 15px 5px;
+  border: 1px solid #E7BDFE;
+  border-radius: 15px;
+  box-shadow: 0 0 5px 1px #E7BDFE;
+}
+
+.checkbox-wrapper {
+  font-size: 1.3em;
+  --text: #C3C8DE;
+  --check: #E7BDFEFF;
+  --disabled: #414856;
+  --border-radius: 10px;
+  border-radius: var(--border-radius);
+  position: relative;
+  padding-left: 10px;
+  display: grid;
+  grid-template-columns: 25px auto;
+  align-items: center;
+}
+
+.checkbox-wrapper label {
+  color: var(--text);
+  position: relative;
+  cursor: pointer;
+  display: grid;
+  align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  transition: color 0.3s ease;
+}
+
+.checkbox-wrapper label::before,
+.checkbox-wrapper label::after {
+  content: "";
+  position: absolute;
+}
+
+.checkbox-wrapper label::before {
+  height: 2px;
+  width: 8px;
+  left: -27px;
+  background: var(--check);
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.checkbox-wrapper label:after {
+  height: 4px;
+  width: 4px;
+  top: 12px;
+  left: -16px;
+  border-radius: 50%;
+}
+
+.checkbox-wrapper input[type=checkbox] {
+  transform: translateY(35%);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  height: 25px;
+  width: 25px;
+  outline: none;
+  border: 0;
+  margin: 0 15px 0 0;
+  cursor: pointer;
+  background: var(--background);
+  display: grid;
+  align-items: center;
+}
+
+.checkbox-wrapper input[type=checkbox]::before, .checkbox-wrapper input[type=checkbox]::after {
+  content: "";
+  position: absolute;
+  height: 3px; /* Увеличено с 2px на 3px */
+  top: auto;
+  background: var(--check);
+  border-radius: 2px;
+}
+
+.checkbox-wrapper input[type=checkbox]::before {
+  width: 0px;
+  right: 60%;
+  transform-origin: right bottom;
+}
+
+.checkbox-wrapper input[type=checkbox]::after {
+  width: 0px;
+  left: 40%;
+  transform-origin: left bottom;
+}
+
+.checkbox-wrapper input[type=checkbox]:checked::before {
+  -webkit-animation: check-01 0.4s ease forwards;
+  animation: check-01 0.4s ease forwards;
+}
+
+.checkbox-wrapper input[type=checkbox]:checked::after {
+  -webkit-animation: check-02 0.4s ease forwards;
+  animation: check-02 0.4s ease forwards;
+}
+
+.checkbox-wrapper input[type=checkbox]:checked + label {
+  color: var(--disabled);
+  -webkit-animation: move 0.3s ease 0.1s forwards;
+  animation: move 0.3s ease 0.1s forwards;
+}
+
+.checkbox-wrapper input[type=checkbox]:checked + label::before {
+  background: var(--disabled);
+  -webkit-animation: slice 0.4s ease forwards;
+  animation: slice 0.4s ease forwards;
+}
+
+.checkbox-wrapper input[type=checkbox]:checked + label::after {
+  -webkit-animation: firework 0.5s ease forwards 0.1s;
+  animation: firework 0.5s ease forwards 0.1s;
+}
+
+@keyframes move {
+  50% {
+    padding-left: 8px;
+    padding-right: 0px;
+  }
+  100% {
+    padding-right: 4px;
+  }
+}
+@keyframes slice {
+  60% {
+    width: 100%;
+    left: 4px;
+  }
+  100% {
+    width: 100%;
+    left: -2px;
+    padding-left: 0;
+  }
+}
+@keyframes check-01 {
+  0% {
+    width: 6px;
+    top: auto;
+    transform: rotate(0);
+  }
+  50% {
+    width: 0px;
+    top: auto;
+    transform: rotate(0);
+  }
+  51% {
+    width: 0px;
+    top: 6px;
+    transform: rotate(45deg);
+  }
+  100% {
+    width: 8px;
+    top: 6px;
+    transform: rotate(45deg);
+  }
+}
+@keyframes check-02 {
+  0% {
+    width: 6px;
+    top: auto;
+    transform: rotate(0);
+  }
+  50% {
+    width: 0px;
+    top: auto;
+    transform: rotate(0);
+  }
+  51% {
+    width: 0px;
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+  100% {
+    width: 16px;
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+}
+@keyframes firework {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 -2px #e7bdfe, 0 0 0 -2px #e7bdfe, 0 0 0 -2px #e7bdfe, 0 0 0 -2px #e7bdfe, 0 0 0 -2px #e7bdfe, 0 0 0 -2px #e7bdfe;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 -20px 0 0px #e7bdfe, 18px -10px 0 0px #e7bdfe, 18px 10px 0 0px #e7bdfe, 0 20px 0 0px #e7bdfe, -18px 10px 0 0px #e7bdfe, -18px -10px 0 0px #e7bdfe;
+  }
+}
+.create-task__button--open {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 3em;
+  padding: 0 0.5em 0.1em;
+  background-color: initial;
+  border: none;
+  color: #E7BDFE;
+  text-shadow: 0px 0px 5px #E7BDFE;
+  box-shadow: 0 0 3px 1px #E7BDFE;
+}
+@media (max-width: 767px) {
+  .create-task__button--open {
+    font-size: 1.8em;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */
