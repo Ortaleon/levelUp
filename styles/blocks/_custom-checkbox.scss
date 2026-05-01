@@ -1,0 +1,187 @@
+.checkbox-wrapper {
+  font-size: 1.3em;
+  --text: #C3C8DE;
+  --check: #E7BDFEFF;
+  --disabled: #414856;
+  --border-radius: 10px;
+  border-radius: var(--border-radius);
+  position: relative;
+  padding-left: 10px;
+  display: grid;
+  grid-template-columns: 25px auto;
+  align-items: center;
+}
+.checkbox-wrapper label {
+  color: var(--text);
+  position: relative;
+  cursor: pointer;
+  display: grid;
+  align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  transition: color 0.3s ease;
+}
+.checkbox-wrapper label::before,
+.checkbox-wrapper label::after {
+  content: "";
+  position: absolute;
+}
+.checkbox-wrapper label::before {
+  height: 2px;
+  width: 8px;
+  left: -27px;
+  background: var(--check);
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+.checkbox-wrapper label:after {
+  height: 4px;
+  width: 4px;
+  top: 12px;
+  left: -16px;
+  border-radius: 50%;
+}
+.checkbox-wrapper input[type=checkbox] {
+  transform: translateY(35%);
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  height: 25px;
+  width: 25px;
+  outline: none;
+  border: 0;
+  margin: 0 15px 0 0;
+  cursor: pointer;
+  background: var(--background);
+  display: grid;
+  align-items: center;
+}
+.checkbox-wrapper input[type=checkbox]::before, .checkbox-wrapper input[type=checkbox]::after {
+  content: "";
+  position: absolute;
+  height: 3px;  /* Увеличено с 2px на 3px */
+  top: auto;
+  background: var(--check);
+  border-radius: 2px;
+}
+.checkbox-wrapper input[type=checkbox]::before {
+  width: 0px;
+  right: 60%;
+  transform-origin: right bottom;
+}
+.checkbox-wrapper input[type=checkbox]::after {
+  width: 0px;
+  left: 40%;
+  transform-origin: left bottom;
+}
+.checkbox-wrapper input[type=checkbox]:checked::before {
+  -webkit-animation: check-01 0.4s ease forwards;
+  animation: check-01 0.4s ease forwards;
+}
+.checkbox-wrapper input[type=checkbox]:checked::after {
+  -webkit-animation: check-02 0.4s ease forwards;
+  animation: check-02 0.4s ease forwards;
+}
+.checkbox-wrapper input[type=checkbox]:checked + label {
+  color: var(--disabled);
+  -webkit-animation: move 0.3s ease 0.1s forwards;
+  animation: move 0.3s ease 0.1s forwards;
+}
+.checkbox-wrapper input[type=checkbox]:checked + label::before {
+  background: var(--disabled);
+  -webkit-animation: slice 0.4s ease forwards;
+  animation: slice 0.4s ease forwards;
+}
+.checkbox-wrapper input[type=checkbox]:checked + label::after {
+  -webkit-animation: firework 0.5s ease forwards 0.1s;
+  animation: firework 0.5s ease forwards 0.1s;
+}
+
+@keyframes move {
+  50% {
+    padding-left: 8px;
+    padding-right: 0px;
+  }
+  100% {
+    padding-right: 4px;
+  }
+}
+
+@keyframes slice {
+  60% {
+    width: 100%;
+    left: 4px;
+  }
+  100% {
+    width: 100%;
+    left: -2px;
+    padding-left: 0;
+  }
+}
+
+@keyframes check-01 {
+  0% {
+    width: 6px;
+    top: auto;
+    transform: rotate(0);
+  }
+  50% {
+    width: 0px;
+    top: auto;
+    transform: rotate(0);
+  }
+  51% {
+    width: 0px;
+    top: 6px;
+    transform: rotate(45deg);
+  }
+  100% {
+    width: 8px;
+    top: 6px;
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes check-02 {
+  0% {
+    width: 6px;
+    top: auto;
+    transform: rotate(0);
+  }
+  50% {
+    width: 0px;
+    top: auto;
+    transform: rotate(0);
+  }
+  51% {
+    width: 0px;
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+  100% {
+    width: 16px;
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes firework {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 -2px #E7BDFEFF, 0 0 0 -2px #E7BDFEFF, 0 0 0 -2px #E7BDFEFF, 0 0 0 -2px #E7BDFEFF, 0 0 0 -2px #E7BDFEFF, 0 0 0 -2px #E7BDFEFF;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 -20px 0 0px #E7BDFEFF,   /* увеличен радиус */
+    18px -10px 0 0px #E7BDFEFF,
+    18px 10px 0 0px #E7BDFEFF,
+    0 20px 0 0px #E7BDFEFF,
+    -18px 10px 0 0px #E7BDFEFF,
+    -18px -10px 0 0px #E7BDFEFF;
+  }
+}

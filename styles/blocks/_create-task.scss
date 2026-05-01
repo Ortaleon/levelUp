@@ -1,0 +1,23 @@
+.create-task{
+  &__button{
+    &--open{
+      position: absolute;
+      top: 30px;
+      right: 30px;
+
+      @include mobile{
+        font-size: 1.8em;
+      }
+      font-size: 3em;
+      @include square(2em);
+
+      background-color: initial;
+      border: none;
+
+      color: #E7BDFE;
+      text-shadow: 0px 0px 5px #E7BDFE;
+      box-shadow: 0 0 3px 1px #E7BDFE;
+
+    }
+  }
+}

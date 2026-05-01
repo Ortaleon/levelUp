@@ -10,11 +10,14 @@ export default class List {
     getAll() {
         return this.#taskList;
     }
+    getCurrentTasks() {
+        return this.#taskList? this.#taskList.filter(({status, completedDate}) => status === Task.STATUS_OPEN || completedDate === Calendar.getTodayDate()) : [];
+    }
     getOpenTasks() {
-        return this.#taskList.filter(({status}) => status === Task.STATUS_OPEN);
+        return this.#taskList? this.#taskList.filter(({status}) => status === Task.STATUS_OPEN) : [];
     }
     getCompletedTasks() {
-        return this.#taskList.filter(({status}) => status === Task.STATUS_COMPLETED);
+        return this.#taskList? this.#taskList.filter(({status, completedDate}) => status === Task.STATUS_COMPLETED && completedDate !== Calendar.getTodayDate()) : [];
     }
     findById(id){
         const task = this.#taskList.find((task) => id == task.id);

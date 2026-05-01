@@ -4,6 +4,7 @@ import List from './list.js';
 import Logs from './logs.js';
 import Task from "./task.js";
 import View from "./view.js";
+// import Generator from "./generator.js";
 
 class Controller {
     saves;
@@ -13,7 +14,8 @@ class Controller {
 
         this.tasksList = new List(await this.load('tasks'));
         this.user = new Users(await this.load('user'));
-        this.view = new View(this.user, this.tasksList.getAll());
+        this.view = new View(this.user, this.tasksList.getCurrentTasks());
+        // this.generator = new Generator();
 
         this.bindEvents();
     }
@@ -22,7 +24,7 @@ class Controller {
         let task = this.tasksList.findById(id).complete();
 
         if (this.tasksList.edit(task)) {
-            this.view.showTasks(this.tasksList.getAll());
+            this.view.showTasks(this.tasksList.getCurrentTasks());
             this.view.showProgressBar(
                 this.user.progressUp(task),
                 this.user.max
@@ -39,10 +41,11 @@ class Controller {
             text: document.getElementsByName('task')[0].value,
             reward: document.getElementsByName('exp')[0].value
         }
+        // this.generator.callDeepSeek(formData.text);
 
         if(this.tasksList.create(formData)){
             await this.save(this.tasksList.getAll(), 'tasks');
-            this.view.showTasks(this.tasksList.getAll());
+            this.view.showTasks(this.tasksList.getCurrentTasks());
         }
     }
 
