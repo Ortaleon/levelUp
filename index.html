@@ -40,11 +40,13 @@
     <section class="create-task">
         <h2 class="visually-hidden">Create task form</h2>
         <button class="create-task__button create-task__button--open" onclick="createTaskForm.showModal()">+</button>
-        <dialog class="create-task__form" id="createTaskForm">
+        <dialog class="create-task__wrapper" id="createTaskForm">
+            <div class="create-task__form">
                 <span class="create-task__button create-task__button--close" onclick="createTaskForm.close()">+</span>
-                <input class="create-task__text" name="task" type="text" placeholder="Задача">
-                <input class="create-task__xp" name="exp" type="number" placeholder="Опыт">
+                <input class="create-task__input create-task__input--text" name="task" type="text" placeholder="Задача">
+                <input class="create-task__input create-task__input--xp" name="exp" type="number" placeholder="Опыт">
                 <button class="create-task__button create-task__button--create" onclick="createTaskForm.close()" data-js-task-add>Add</button>
+            </div>
         </dialog>
     </section>
 </main>
