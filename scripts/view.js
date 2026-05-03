@@ -1,3 +1,5 @@
+import Finances from "./finances.js";
+
 export default class View {
     #levelElement;
     #progressBarElement;
@@ -50,8 +52,8 @@ export default class View {
         if (tasks.length == 0) return ;
         this.#taskListElement.innerHTML = this.#taskFormationHtml(tasks);
     }
-    showEmergencyFund(num){
-        this.#emergencyFundElement.textContent = `${num}zl`;
+    async showEmergencyFund(num){
+        this.#emergencyFundElement.textContent = `${num}zl(${await Finances.trading212() || 0})`;
     }
     updateCircleProgress(percent) {
         const radius = 54;

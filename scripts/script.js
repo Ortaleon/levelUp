@@ -53,7 +53,7 @@ class Controller {
 
     async addMoney(){
         let num = prompt('Сколько ты отложил денег сегодня?');
-        this.finances.addEmergencyFund(num)
+        this.finances.addEmergencyFund(num);
 
         this.view.showEmergencyFund(this.finances.getEmergencyFund());
         await this.save(this.finances.getEmergencyFund(), 'finances');
