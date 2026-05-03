@@ -4,6 +4,7 @@ import List from './list.js';
 import Logs from './logs.js';
 import Task from "./task.js";
 import View from "./view.js";
+import Finances from "./finances.js";
 // import Generator from "./generator.js";
 
 class Controller {
@@ -14,7 +15,8 @@ class Controller {
 
         this.tasksList = new List(await this.load('tasks'));
         this.user = new Users(await this.load('user'));
-        this.view = new View(this.user, this.tasksList.getCurrentTasks());
+        this.finances = new Finances(await this.load('finances'));
+        this.view = new View(this.user, this.tasksList.getCurrentTasks(), this.finances.getEmergencyFund());
         // this.generator = new Generator();
 
         this.bindEvents();
@@ -49,6 +51,14 @@ class Controller {
         }
     }
 
+    async addMoney(){
+        let num = prompt('Сколько ты отложил денег сегодня?');
+        this.finances.addEmergencyFund(num)
+
+        this.view.showEmergencyFund(this.finances.getEmergencyFund());
+        await this.save(this.finances.getEmergencyFund(), 'finances');
+    }
+
     async load(file) {
         return await this.saves.getData(file);
     }
@@ -64,6 +74,8 @@ class Controller {
                 this.completeTask(taskId);
             } else if (event.target.hasAttribute('data-js-task-add')) {
                 this.addTask();
+            } else if(event.target.closest('.finances__emergency-fund')){
+                this.addMoney();
             }
         })
     }
@@ -77,6 +89,8 @@ await control.init();
 //TODO Не показывать выполненные задачи не сегодняшнего дня
 //TODO Логи
 //TODO Укрепить инкапсуляцию
+//TODO Добавить дейлики и т.п
+
 
 
 

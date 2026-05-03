@@ -7,6 +7,7 @@ export default class Saves {
         this.#files.set('user', await opfsRoot.getFileHandle('user', {create:true}));
         this.#files.set('logs', await opfsRoot.getFileHandle('logs', {create:true}));
         this.#files.set('tasks', await opfsRoot.getFileHandle('tasks', {create:true}));
+        this.#files.set('finances', await opfsRoot.getFileHandle('finances', {create:true}));
     }
 
     getData = async (fileName) => {

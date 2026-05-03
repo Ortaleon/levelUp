@@ -7,6 +7,7 @@
   justify-content: center;
   align-items: center;
   @include mobile-above{
+    margin-left: 100px;
     align-items: start;
   }
 

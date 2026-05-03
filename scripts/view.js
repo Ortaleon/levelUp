@@ -3,22 +3,28 @@ export default class View {
     #progressBarElement;
     #progressCircleElement;
     #taskListElement;
+    #emergencyFundElement;
     #selectors = {
         level: '[data-js-level]',
         progress: '[data-js-progress-bar]',
         list: '[data-js-task-list]',
-        circle: '[data-js-progress-circle]'
+        circle: '[data-js-progress-circle]',
+        emergencyFund: '[data-js-emergency-fund]'
+
     }
 
-    constructor({ level, progress, max }, tasks) {
+    constructor({ level, progress, max }, tasks, num) {
         this.#levelElement = document.querySelector(this.#selectors.level);
         this.#progressBarElement = document.querySelector(this.#selectors.progress);
         this.#progressCircleElement = document.querySelector(this.#selectors.circle);
         this.#taskListElement = document.querySelector(this.#selectors.list);
+        this.#emergencyFundElement = document.querySelector(this.#selectors.emergencyFund);
 
         this.showLevel(level);
         this.showProgressBar(progress, max);
+        this.showEmergencyFund(num);
         if (tasks) this.showTasks(tasks);
+
 
     }
 
@@ -43,6 +49,9 @@ export default class View {
     showTasks(tasks){
         if (tasks.length == 0) return ;
         this.#taskListElement.innerHTML = this.#taskFormationHtml(tasks);
+    }
+    showEmergencyFund(num){
+        this.#emergencyFundElement.textContent = `${num}zl`;
     }
     updateCircleProgress(percent) {
         const radius = 54;

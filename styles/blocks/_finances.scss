@@ -1,0 +1,23 @@
+.finances{
+  position: absolute;
+  top: 0;
+
+  @include mobile{
+    left: 0;
+  }
+  &__emergency-fund{
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    :where([data-js-emergency-fund]){
+      text-align: center;
+      position: absolute;
+      bottom: -5px;
+      color: #E7BDFE;
+      font-size: 1.2em;
+    }
+  }
+}

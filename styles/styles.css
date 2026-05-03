@@ -301,6 +301,7 @@ button {
 }
 @media (min-width: 768px) {
   .user {
+    margin-left: 100px;
     align-items: start;
   }
 }
@@ -634,6 +635,30 @@ button {
   font-size: 2.5em;
   transform: rotate(45deg);
   transform-origin: center;
+}
+
+.finances {
+  position: absolute;
+  top: 0;
+}
+@media (max-width: 767px) {
+  .finances {
+    left: 0;
+  }
+}
+.finances__emergency-fund {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.finances__emergency-fund :where([data-js-emergency-fund]) {
+  text-align: center;
+  position: absolute;
+  bottom: -5px;
+  color: #E7BDFE;
+  font-size: 1.2em;
 }
 
 /*# sourceMappingURL=styles.css.map */
