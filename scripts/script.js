@@ -10,15 +10,16 @@ import Finances from "./finances.js";
 class Controller {
     saves;
     async init(){
-        this.saves = new Saves();
-        await this.saves.init();
-
-        this.tasksList = new List(await this.load('tasks'));
-        this.user = new Users(await this.load('user'));
-        this.finances = new Finances(await this.load('finances'));
-        this.view = new View(this.user, this.tasksList.getCurrentTasks(), this.finances.getEmergencyFund());
+        this.tasksList = new List(await Saves.getData('tasks'));
+        this.user = new Users(await Saves.getData('user'));
+        this.finances = new Finances(await Saves.getData('finances'));
+        this.view = new View(
+            this.user,
+            this.tasksList.getCurrentTasks(),
+            this.finances.getEmergencyFund(),
+            await Finances.trading212()
+        );
         // this.generator = new Generator();
-
         this.bindEvents();
     }
 
@@ -33,8 +34,8 @@ class Controller {
             );
             this.view.showLevel(this.user.level);
 
-            await this.save(this.tasksList.getAll(), 'tasks');
-            await this.save(this.user, 'user');
+            await Saves.setData(this.tasksList.getAll(), 'tasks');
+            await Saves.setData(this.user, 'user');
         }
     }
 
@@ -46,24 +47,18 @@ class Controller {
         // this.generator.callDeepSeek(formData.text);
 
         if(this.tasksList.create(formData)){
-            await this.save(this.tasksList.getAll(), 'tasks');
+            await Saves.setData(this.tasksList.getAll(), 'tasks');
             this.view.showTasks(this.tasksList.getCurrentTasks());
         }
     }
 
     async addMoney(){
-        let num = prompt('Сколько ты отложил денег сегодня?');
+        const num = prompt('Сколько ты отложил денег сегодня?');
         this.finances.addEmergencyFund(num);
 
-        this.view.showEmergencyFund(this.finances.getEmergencyFund());
-        await this.save(this.finances.getEmergencyFund(), 'finances');
-    }
-
-    async load(file) {
-        return await this.saves.getData(file);
-    }
-    async save(data, file = '') {
-        await this.saves.setData(data, file);
+        await this.view.showEmergencyFund(this.finances.getEmergencyFund());
+        await Saves.setData(this.finances.getEmergencyFund(), 'finances');
+        return true;
     }
 
     bindEvents(){

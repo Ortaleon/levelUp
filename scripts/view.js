@@ -15,7 +15,7 @@ export default class View {
 
     }
 
-    constructor({ level, progress, max }, tasks, num) {
+    constructor({ level, progress, max }, tasks, num, traidingAmount) {
         this.#levelElement = document.querySelector(this.#selectors.level);
         this.#progressBarElement = document.querySelector(this.#selectors.progress);
         this.#progressCircleElement = document.querySelector(this.#selectors.circle);
@@ -25,6 +25,9 @@ export default class View {
         this.showLevel(level);
         this.showProgressBar(progress, max);
         this.showEmergencyFund(num);
+        if(traidingAmount != null){
+            this.showInvestedAmount(traidingAmount.investments.currentValue);
+        }
         if (tasks) this.showTasks(tasks);
 
 
@@ -52,14 +55,26 @@ export default class View {
         if (tasks.length == 0) return ;
         this.#taskListElement.innerHTML = this.#taskFormationHtml(tasks);
     }
-    async showEmergencyFund(num){
-        this.#emergencyFundElement.textContent = `${num}zl(${await Finances.trading212() || 0})`;
+    showEmergencyFund(num){
+        this.#emergencyFundElement.textContent = `${num}`;
+    }
+
+    showInvestedAmount(amount){
+        const elem = document.createElement('div');
+        elem.classList.add('finances__emergency-fund');
+        elem.innerHTML = `
+            <svg width="70" height="70" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="16" width="48" height="32" rx="10" fill="none" stroke="#E7BDFE" stroke-width="2"></rect>
+                <text x="32" y="38" text-anchor="middle" font-size="18" color="#E7BDFE" fill="#E7BDFE" font-family="Arial, sans-serif" font-weight="bold">zl</text>
+                <path d="M12 20 H52 M12 44 H52" stroke="#E7BDFE" stroke-width="1.5" stroke-dasharray="3 3"></path>
+            </svg>
+            <span data-js-emergency-fund="">${amount}</span>`;
+        document.querySelector('.finances').appendChild(elem);
     }
     updateCircleProgress(percent) {
         const radius = 54;
-        const circumference = 2 * Math.PI * radius; // 339.3
+        const circumference = 2 * Math.PI * radius;
 
-        // Вычисляем offset: 0% = 339.3, 100% = 0
         const offset = circumference - (percent / 100) * circumference;
         this.#progressCircleElement.style.strokeDashoffset = offset;
     }

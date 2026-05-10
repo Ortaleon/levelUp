@@ -1,35 +1,33 @@
+import Settings from "./settings.js";
+
 export default class Finances {
     #emergencyFund;
+    static TRADING_212 = {
+        proxyUrl: 'https://cors-anywhere.herokuapp.com/',
+        targetUrl: 'https://live.trading212.com/api/v0/equity/account/summary',
+        credentialsEncoded: async () => {
+            return btoa(`${await Settings.getValue('apiKey')}:${ await Settings.getValue('apiSecret')}`);
+        }
+    }
 
     constructor(num) {
         this.#emergencyFund = num || 0;
     }
 
     static async trading212() {
-        const api_key = '5293395ZnnxxirylbYdyLLxzRYxuQCXHibDe';
-        const api_secret = 'r95klZ7jFnngESx_iqYnf14FNm8LyfcQGje4tfnEzI0';
-
-        // Кодируем ключи в Base64 для Basic авторизации
-        const credentials = `${api_key}:${api_secret}`;
-        const encoded = btoa(credentials);
-
-        // Используем публичный CORS-прокси
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        const targetUrl = 'https://live.trading212.com/api/v0/equity/account/cash';
-
         try {
-            const response = await fetch(proxyUrl + targetUrl, {
+            const response = await fetch(this.TRADING_212.proxyUrl + this.TRADING_212.targetUrl, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Basic ${encoded}`
+                    'Authorization': `Basic ${await this.TRADING_212.credentialsEncoded()}`
                 }
             });
 
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
             const data = await response.json();
-            console.log('💰 Баланс:', data);
-            return data.total;
+            // return Math.floor(data.total-data.invested);
+            return data;
 
         } catch (error) {
             console.error('❌ Ошибка:', error);
@@ -39,9 +37,9 @@ export default class Finances {
     }
 
     addEmergencyFund(num) {
-        return this.#emergencyFund += Number(num);
+        this.#emergencyFund += Number(num);
+        return true;
     }
-
     getEmergencyFund() {
         return Number(this.#emergencyFund);
     }
